@@ -24,20 +24,27 @@ function runGame(gameType) {
     let num2 = Math.floor(Math.random() * 25) + 1;
 
     switch (gameType) {
-        case ("addition"):
+        case "addition":
             displayAdditionQuestion(num1, num2);
-        case ("subtract"):
+            break;
+        case "subtract":
             displaySubtractQuestion(num1, num2);
-
+            break;
+        case "multiply":
+            displayMultiplyQuestion(num1, num2);
+            break;
+        default:
+            alert(`Unknown game type: ${gameType}`);
+            throw `Unknown game type: ${gameType}. Aborting.`;
     }
 
 
-    if (gameType === "addition") {
-        displayAdditionQuestion(num1, num2);
-    } else {
-        alert(`Unknown game type: ${gameType}`);
-        throw `Unknown game type: ${gameType}. Aborting.`;
-    }
+    // if (gameType === "addition") {
+    //     displayAdditionQuestion(num1, num2);
+    // } else {
+    //     alert(`Unknown game type: ${gameType}`);
+    //     throw `Unknown game type: ${gameType}. Aborting.`;
+    // }
 
 }
 
@@ -48,8 +55,10 @@ function checkAnswer() {
 
     if (isCorrect) {
         alert("Right!");
+        incrementScore();
     } else {
         alert(`Wrong... It's ${calculatedAnswer[0]}`);
+        incrementWrongAnswer();
     }
 
     runGame(calculatedAnswer[1]);
@@ -60,19 +69,40 @@ function calculateCorrectAnswer() {
     let operand2 = parseInt(document.getElementById('operand2').innerText);
     let operator = document.getElementById('operator').innerText;
 
-    if (operator === "+") {
-        return [operand1 + operand2, "addition"];
-    } else {
-        alert('unimplemented operator');
-        throw 'Unimplemented operator';
+    switch (operator) {
+        case "+":
+            return [operand1 + operand2, "addition"];
+            break;
+        case "-":
+            return [operand1 - operand2, "subtract"];
+            break;
+        case "x":
+            return [operand1 * operand2, "multiply"];
+            break;
+        default:
+            alert('unimplemented operator');
+            throw 'Unimplemented operator';
+
     }
+
+    // if (operator === "+") {
+    //     return [operand1 + operand2, "addition"];
+    // } else {
+    //     alert('unimplemented operator');
+    //     throw 'Unimplemented operator';
+    // }
 }
 
 function incrementScore() {
+    let oldScore = parseInt(document.getElementById('score').innerText);
+   // ++ before the variable to make sure it is first calculated, then the inner text is updated !!!
+    document.getElementById('score').innerText = ++oldScore;
 
 }
 
 function incrementWrongAnswer() {
+    let oldScore = parseInt(document.getElementById('incorrect').innerText);
+     document.getElementById('incorrect').innerText = ++oldScore;
 
 }
 
